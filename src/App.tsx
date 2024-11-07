@@ -34,10 +34,10 @@ const App: React.FC = () => {
                 <LeftPage />
               </div>
               <div className="col-md-8 custom-dynamic">
-                <div className="static-content p-3">
+                <div className="static-content">
                   <CalendarComponent />
                 </div>
-                <div className="dynamic-content p-3">
+                <div className="dynamic-content">
                   <Routes>
                     <Route path="/map" element={<MapPage />} />
                     <Route path="/generate-dynamic-table" element={<DynamicTable />} />

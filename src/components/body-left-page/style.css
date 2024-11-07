@@ -1,11 +1,10 @@
 .sidebar-expanded {
-    width: 250px;
+    width: 100%;
     /* Set your desired width when expanded */
     transition: width 0.3s ease;
 }
 
 .sidebar-collapsed {
-    width: 60px;
-    /* Set your desired width when collapsed */
+    width: 62px;
     transition: width 0.3s ease;
 }

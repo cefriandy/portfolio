@@ -77,7 +77,7 @@ const LeftPage: React.FC = () => {
             </li>
           </ul>
           <button
-            className="btn btn-secondary m-2 position-absolute bottom-0 start-0"
+            className="btn btn-secondary position-absolute bottom-0 start-0"
             onClick={toggleSidebar}
           >
             {isSidebarVisible ? '<' : '>'}
@@ -86,14 +86,14 @@ const LeftPage: React.FC = () => {
       )}
       {!isSidebarVisible && (
         <button
-          className="btn btn-secondary m-2 position-absolute top-0 start-0"
+          className="btn btn-secondary position-absolute top-0 start-0"
           onClick={toggleSidebar}
         >
           {'>'}
         </button>
       )}
       <button
-        className="btn btn-primary m-2 position-absolute top-0 start-0 d-md-none"
+        className="btn btn-primary position-absolute top-0 start-0 d-md-none"
         onClick={togglePopupMenu}
       >
         <FaBars />
