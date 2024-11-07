@@ -36,10 +36,11 @@ function DynamicTable() {
   const [editData, setEditData] = useState<EditData>({ idRow: '' });
   const [successMessage, setSuccessMessage] = useState('');
 
+  const apiHost = import.meta.env.VITE_API_HOST;
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8090/api/v1/table/${userId}`, {
+      const response = await fetch(`${apiHost}/api/v1/table/${userId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -154,7 +155,7 @@ function DynamicTable() {
     };
 
     try {
-      const response = await fetch('http://localhost:8090/api/v1/table/save-all', {
+      const response = await fetch(`${apiHost}/api/v1/table/save-all`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -205,7 +206,7 @@ function DynamicTable() {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://localhost:8090/api/v1/table/delete?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
+        const response = await fetch(`${apiHost}/api/v1/table/delete?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
           method: 'DELETE',
         });
 
@@ -245,7 +246,7 @@ function DynamicTable() {
     const { idRow, ...payload } = editData;
 
     try {
-      const response = await fetch(`http://localhost:8090/api/v1/table/edit?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
+      const response = await fetch(`${apiHost}/api/v1/table/edit?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -298,7 +299,7 @@ function DynamicTable() {
         }
       }
 
-      const response = await fetch('http://localhost:8090/api/v1/table/add', {
+      const response = await fetch(`${apiHost}/api/v1/table/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

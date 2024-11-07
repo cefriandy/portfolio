@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-
 interface Todo {
   id: string;
   title: string;
@@ -11,7 +10,7 @@ interface Todo {
 interface Event {
   id: string;
   title: string;
-  dueDate: string; 
+  start: string;
   description: string;
   completed: boolean
 }
@@ -35,18 +34,20 @@ export const useTodos = () => {
 
 export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [events, setEvents] = useState<Event[]>([]); // Correct type here
+  const [events, setEvents] = useState<Event[]>([]);
+  const apiHost = import.meta.env.VITE_API_HOST;
+
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      const response = await fetch('http://localhost:8090/api/v1/todo/get-all-events?userId=12345678');
+    const fetchTodos = async () => {    
+      const response = await fetch(`${apiHost}/api/v1/todo/get-all-events?userId=12345678`);
       const data = await response.json();
       const allTodos: Todo[] = [...data.data.past, ...data.data.ongoing, ...data.data.upcoming];
       setTodos(allTodos);
       setEvents(allTodos.map(todo => ({
         id: todo.id,
         title: todo.title,
-        dueDate: todo.dueDate,
+        start: todo.dueDate,
         description: todo.description,
         completed: todo.completed
       })));
@@ -60,7 +61,7 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setEvents(prevEvents => [...prevEvents, {
       id: newTodo.id,
       title: newTodo.title,
-      dueDate: newTodo.dueDate,
+      start: newTodo.dueDate,
       description: newTodo.description,
       completed: newTodo.completed
     }]);
@@ -68,7 +69,7 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const deleteTodo = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:8090/api/v1/todo/delete/${id}`, {
+      const response = await fetch(`${apiHost}/api/v1/todo/delete/${id}`, {
         method: 'DELETE'
       });
       if (response.ok) {

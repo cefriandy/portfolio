@@ -9,6 +9,8 @@ const TodoComponent: React.FC = () => {
     const [newTodo, setNewTodo] = useState({ userId: '12345678', title: '', description: '', dueDate: '', completed: false });
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState('');
+    const apiHost = import.meta.env.VITE_API_HOST;
+
 
     const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
@@ -17,7 +19,7 @@ const TodoComponent: React.FC = () => {
 
     const handleCreateTodo = async () => {
         setLoading(true);
-        const response = await fetch('http://localhost:8090/api/v1/todo/create-todo', {
+        const response = await fetch(`${apiHost}/api/v1/todo/create-todo`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newTodo)
@@ -28,7 +30,7 @@ const TodoComponent: React.FC = () => {
         setLoading(false);
         setNotification('Todo saved successfully!');
         setTimeout(() => setNotification(''), 3000);
-        
+
         const dismissButton = document.querySelector('[data-bs-dismiss="modal"]') as HTMLElement | null;
         if (dismissButton) {
             dismissButton.click();

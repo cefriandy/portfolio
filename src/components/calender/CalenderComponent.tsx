@@ -9,7 +9,7 @@ import { useTodos } from '../../contexts/TodoContext';
 interface Event {
     id: string;
     title: string;
-    dueDate: string;
+    start: string;
     description: string;
     completed: boolean;
 }
@@ -19,7 +19,7 @@ const CalendarComponent = () => {
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
     const handleDateClick = (info: { dateStr: string }) => {
-        const event = events.find(e => e.dueDate === info.dateStr);
+        const event = events.find(e => e.start === info.dateStr);
         if (event) {
             setSelectedEvent(event);
             const modalElement = document.getElementById('eventModal');
@@ -51,7 +51,7 @@ const CalendarComponent = () => {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                {selectedEvent.description}
+                                {selectedEvent.start}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
