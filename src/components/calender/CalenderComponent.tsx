@@ -1,20 +1,34 @@
 import { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction'; // Import interaction plugin
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { useTodos } from '../../contexts/TodoContext';
 
+interface Event {
+    id: string;
+    title: string;
+    dueDate: string;
+    description: string;
+    completed: boolean;
+}
+
 const CalendarComponent = () => {
     const { events } = useTodos();
-    const [selectedEvent, setSelectedEvent] = useState(null);
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
-    const handleDateClick = (info) => {
-        const event = events.find(e => e.start === info.dateStr);
+    const handleDateClick = (info: { dateStr: string }) => {
+        const event = events.find(e => e.dueDate === info.dateStr);
         if (event) {
             setSelectedEvent(event);
-            const modal = new window.bootstrap.Modal(document.getElementById('eventModal'));
-            modal.show();
+            const modalElement = document.getElementById('eventModal');
+            if (modalElement) {
+                const modal = new window.bootstrap.Modal(modalElement);
+                modal.show();
+            } else {
+                console.error('Modal element not found');
+            }
         }
     };
 
@@ -22,14 +36,14 @@ const CalendarComponent = () => {
         <div className="container p-3 shadow border mt-10" style={{ maxWidth: '900px' }}>
             <h4 className="mb-3">Calendar View</h4>
             <FullCalendar
-                plugins={[dayGridPlugin]}
+                plugins={[dayGridPlugin, interactionPlugin]} // Include interaction plugin
                 initialView="dayGridMonth"
                 events={events}
                 dateClick={handleDateClick}
             />
 
             {selectedEvent && (
-                <div className="modal fade" id="eventModal" tabIndex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+                <div className="modal fade" id="eventModal" tabIndex={-1} aria-labelledby="eventModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">

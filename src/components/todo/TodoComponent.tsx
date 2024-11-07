@@ -10,7 +10,7 @@ const TodoComponent: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState('');
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
         setNewTodo({ ...newTodo, [name]: value });
     };
@@ -28,7 +28,11 @@ const TodoComponent: React.FC = () => {
         setLoading(false);
         setNotification('Todo saved successfully!');
         setTimeout(() => setNotification(''), 3000);
-        document.querySelector('[data-bs-dismiss="modal"]').click();
+        
+        const dismissButton = document.querySelector('[data-bs-dismiss="modal"]') as HTMLElement | null;
+        if (dismissButton) {
+            dismissButton.click();
+        }
     };
 
     return (
@@ -73,39 +77,38 @@ const TodoComponent: React.FC = () => {
             )}
 
             {/* Create Todo Modal */}
-            <div className="modal fade" id="createTodoModal" tabIndex="-1" aria-labelledby="createTodoModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="createTodoModalLabel">Create Todo</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="createTodoModal" tabIndex={-1} aria-labelledby="createTodoModalLabel" aria-hidden="true">                <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="createTodoModalLabel">Create Todo</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="mb-3">
+                            <label className="form-label">Title</label>
+                            <input type="text" className="form-control" name="title" value={newTodo.title} onChange={handleInputChange} />
                         </div>
-                        <div className="modal-body">
-                            <div className="mb-3">
-                                <label className="form-label">Title</label>
-                                <input type="text" className="form-control" name="title" value={newTodo.title} onChange={handleInputChange} />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Description</label>
-                                <textarea className="form-control" name="description" value={newTodo.description} onChange={handleInputChange}></textarea>
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Due Date</label>
-                                <input type="datetime-local" className="form-control" name="dueDate" value={newTodo.dueDate} onChange={handleInputChange} />
-                            </div>
-                            <div className="mb-3 form-check">
-                                <input type="checkbox" className="form-check-input" name="completed" checked={newTodo.completed} onChange={(e) => setNewTodo({ ...newTodo, completed: e.target.checked })} />
-                                <label className="form-check-label">Completed</label>
-                            </div>
+                        <div className="mb-3">
+                            <label className="form-label">Description</label>
+                            <textarea className="form-control" name="description" value={newTodo.description} onChange={handleInputChange}></textarea>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={handleCreateTodo} disabled={loading}>
-                                {loading ? 'Saving...' : 'Save'}
-                            </button>
+                        <div className="mb-3">
+                            <label className="form-label">Due Date</label>
+                            <input type="datetime-local" className="form-control" name="dueDate" value={newTodo.dueDate} onChange={handleInputChange} />
+                        </div>
+                        <div className="mb-3 form-check">
+                            <input type="checkbox" className="form-check-input" name="completed" checked={newTodo.completed} onChange={(e) => setNewTodo({ ...newTodo, completed: e.target.checked })} />
+                            <label className="form-check-label">Completed</label>
                         </div>
                     </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-primary" onClick={handleCreateTodo} disabled={loading}>
+                            {loading ? 'Saving...' : 'Save'}
+                        </button>
+                    </div>
                 </div>
+            </div>
             </div>
         </div>
     );

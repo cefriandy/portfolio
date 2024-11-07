@@ -12,15 +12,21 @@ const ProfilePage: React.FC = () => {
 
   const [editProfile, setEditProfile] = useState(profile);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditProfile({ ...editProfile, [name]: value });
   };
 
   const handleSaveChanges = () => {
     setProfile(editProfile);
-    const modal = new window.bootstrap.Modal(document.getElementById('editProfileModal'));
-    modal.hide();
+
+    const modalElement = document.getElementById('editProfileModal');
+    if (modalElement) {
+      const modal = new window.bootstrap.Modal(modalElement);
+      modal.hide();
+    } else {
+      console.error('Modal element not found');
+    }
   };
 
   return (
@@ -37,7 +43,7 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* Edit Profile Modal */}
-      <div className="modal fade" id="editProfileModal" tabIndex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+      <div className="modal fade" id="editProfileModal" tabIndex={-1} aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

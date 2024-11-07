@@ -3,9 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './style.css';
 
-// Import Leaflet CSS
-import 'leaflet/dist/leaflet.css';
-
 // Fix for default marker icon issue
 import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -19,7 +16,7 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const MapPage: React.FC = () => {
-    const position = [-0.5634, 100.2793]; // Coordinates for Kecamatan Tambusai, Riau, Indonesia
+    const position: [number, number] = [-0.5634, 100.2793]; // Coordinates for Kecamatan Tambusai, Riau, Indonesia
 
     return (
         <div className="container">

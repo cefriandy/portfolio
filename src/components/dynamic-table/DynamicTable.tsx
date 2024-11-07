@@ -1,23 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-modal';
-import './style.css'
+import './style.css';
 
-function MainBody() {
-  const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
+interface TableData {
+  data: any[];
+  table_id: string;
+}
+
+interface EditData {
+  idRow: string;
+  [key: string]: string;
+}
+
+interface Errors {
+  rowCount?: string; // Optional string for row count error
+  columnCount?: string; // Optional string for column count error
+  [key: string]: string | undefined; // Allow for dynamic keys for column errors
+}
+
+function DynamicTable() {
+  const [columns, setColumns] = useState<string[]>([]);
+  const [rows, setRows] = useState<string[][]>([]);
   const [rowCount, setRowCount] = useState(0);
   const [columnCount, setColumnCount] = useState(0);
 
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<TableData | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
   const [userId, setUserId] = useState('12345678');
   const [currentStep, setCurrentStep] = useState(0);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
   const [showForm, setShowForm] = useState(false);
-  const [editRow, setEditRow] = useState(null);
-  const [editData, setEditData] = useState({});
+  const [editRow, setEditRow] = useState<number | string | null>(null);
+  const [editData, setEditData] = useState<EditData>({ idRow: '' });
   const [successMessage, setSuccessMessage] = useState('');
 
 
@@ -35,8 +51,12 @@ function MainBody() {
 
       const data = await response.json();
       setTableData(data);
-    } catch (error) {
-      setError(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error);
+      } else {
+        setError(new Error('An unknown error occurred'));
+      }
     } finally {
       setLoading(false);
     }
@@ -62,7 +82,7 @@ function MainBody() {
   };
 
   const validateCurrentStep = () => {
-    let newErrors = {};
+    let newErrors: Record<string, string> = {}; // Define newErrors as a record
 
     if (currentStep === 0) {
       if (!rowCount || rowCount < 1) {
@@ -72,7 +92,10 @@ function MainBody() {
         newErrors.columnCount = 'Number of columns is required and must be at least 1';
       }
     } else if (currentStep === 1) {
-      const columnNames = Array.from({ length: columnCount }, (_, index) => document.getElementById(`column${index}`).value);
+      const columnNames = Array.from({ length: columnCount }, (_, index) => {
+        const element = document.getElementById(`column${index}`) as HTMLInputElement;
+        return element ? element.value : '';
+      });
       columnNames.forEach((name, index) => {
         if (!name) {
           newErrors[`column${index}`] = `Column ${index + 1} is required`;
@@ -84,17 +107,20 @@ function MainBody() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSetupSubmit = (e) => {
+  const handleSetupSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (validateCurrentStep()) {
       setCurrentStep(1);
     }
   };
 
-  const handleColumnSubmit = (e) => {
+  const handleColumnSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (validateCurrentStep()) {
-      const columnNames = Array.from({ length: columnCount }, (_, index) => document.getElementById(`column${index}`).value);
+      const columnNames = Array.from({ length: columnCount }, (_, index) => {
+        const element = document.getElementById(`column${index}`) as HTMLInputElement; // Cast to HTMLInputElement
+        return element ? element.value : ''; // Safely access the value
+      });
       setColumns(columnNames);
 
       const initialRows = Array.from({ length: rowCount }, () => Array(columnCount).fill(''));
@@ -104,7 +130,7 @@ function MainBody() {
     }
   };
 
-  const handleRowChange = (e, rowIndex, columnIndex) => {
+  const handleRowChange = (e: ChangeEvent<HTMLInputElement>, rowIndex: number, columnIndex: number) => {
     const updatedRows = rows.map((row, rIdx) => {
       if (rIdx === rowIndex) {
         const updatedRow = [...row];
@@ -116,7 +142,7 @@ function MainBody() {
     setRows(updatedRows);
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     setLoading(true);
@@ -163,44 +189,47 @@ function MainBody() {
   };
 
 
-  const handleEdit = (rowIndex) => {
-    const rowData = data[rowIndex];
-    setEditRow(rowIndex);
-    setEditData(rowData);
-  };
-
-  const handleDelete = async (rowIndex) => {
-    const rowToDelete = data[rowIndex];
-    const { idRow } = rowToDelete;
-
-    setLoading(true);
-
-    try {
-      const response = await fetch(`http://localhost:8090/api/v1/table/delete?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      if (response.ok) {
-        fetchData();
-        console.log('Row deleted successfully');
-      }
-    } catch (error) {
-      console.error('Error deleting row:', error);
-    } finally {
-      setLoading(false);
+  const handleEdit = (rowIndex: number | null) => {
+    if (data && rowIndex !== null) { // Check if data is defined and rowIndex is not null
+      const rowData = data[rowIndex];
+      setEditRow(rowIndex);
+      setEditData(rowData);
     }
   };
+
+  const handleDelete = async (rowIndex: number) => {
+    if (data) {
+      const rowToDelete = data[rowIndex];
+      const { idRow } = rowToDelete;
+
+      setLoading(true);
+
+      try {
+        const response = await fetch(`http://localhost:8090/api/v1/table/delete?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        fetchData(); // Fetch data after deletion
+        console.log('Row deleted successfully');
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
 
   const handleCreateClick = () => {
     setShowForm(true);
     setCurrentStep(0);
   };
 
-  const handleEditChange = (e) => {
+  const handleEditChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setEditData((prevData) => ({
       ...prevData,
@@ -208,17 +237,12 @@ function MainBody() {
     }));
   };
 
-  const handleEditSubmit = async (e) => {
+  const handleEditSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     setLoading(true);
 
     const { idRow, ...payload } = editData;
-
-    console.log("idRow: " + idRow);
-    console.log("table_id: " + table_id);
-    console.log("userId: " + userId);
-
 
     try {
       const response = await fetch(`http://localhost:8090/api/v1/table/edit?userId=${userId}&tableId=${table_id}&idRow=${idRow}`, {
@@ -246,14 +270,17 @@ function MainBody() {
   };
 
   const handleAddRow = () => {
-    setEditData(columns.reduce((acc, column) => {
+    const newEditData: EditData = columns.reduce((acc: EditData, column) => {
       acc[column] = '';
       return acc;
-    }, {}));
+    }, { idRow: '' });
+
+    setEditData(newEditData);
     setEditRow('new');
   };
 
-  const handleAddSubmit = async (e) => {
+
+  const handleAddSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     setLoading(true);
@@ -414,7 +441,7 @@ function MainBody() {
                 </tr>
               </thead>
               <tbody key={table_id}>
-                {data.map((row, rowIndex) => (
+                {data?.map((row, rowIndex) => (
                   <tr key={row.id}>
                     {cols.map((column) => (
                       <td key={column}>{row[column]}</td>
@@ -473,4 +500,4 @@ function MainBody() {
   );
 }
 
-export default MainBody;
+export default DynamicTable;

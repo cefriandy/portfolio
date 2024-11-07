@@ -1,41 +1,72 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 
-const TodoContext = createContext();
+interface Todo {
+  id: string;
+  title: string;
+  dueDate: string;
+  description: string;
+  completed: boolean;
+}
 
-export const useTodos = () => useContext(TodoContext);
+interface Event {
+  id: string;
+  title: string;
+  dueDate: string; 
+  description: string;
+  completed: boolean
+}
 
-export const TodoProvider = ({ children }) => {
-  const [todos, setTodos] = useState([]);
-  const [events, setEvents] = useState([]);
+interface TodoContextType {
+  todos: Todo[];
+  events: Event[];
+  addTodo: (newTodo: Todo) => void;
+  deleteTodo: (id: string) => Promise<void>;
+}
+
+const TodoContext = createContext<TodoContextType | undefined>(undefined);
+
+export const useTodos = () => {
+  const context = useContext(TodoContext);
+  if (!context) {
+    throw new Error('useTodos must be used within a TodoProvider');
+  }
+  return context;
+};
+
+export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [events, setEvents] = useState<Event[]>([]); // Correct type here
 
   useEffect(() => {
     const fetchTodos = async () => {
       const response = await fetch('http://localhost:8090/api/v1/todo/get-all-events?userId=12345678');
       const data = await response.json();
-      const allTodos = [...data.data.past, ...data.data.ongoing, ...data.data.upcoming];
+      const allTodos: Todo[] = [...data.data.past, ...data.data.ongoing, ...data.data.upcoming];
       setTodos(allTodos);
       setEvents(allTodos.map(todo => ({
-        id: todo.id, // Add id to events
+        id: todo.id,
         title: todo.title,
-        start: todo.dueDate,
-        description: todo.description
+        dueDate: todo.dueDate,
+        description: todo.description,
+        completed: todo.completed
       })));
     };
 
     fetchTodos();
   }, []);
 
-  const addTodo = (newTodo) => {
-    setTodos([...todos, newTodo]);
-    setEvents([...events, {
-      id: newTodo.id, // Add id to new event
+  const addTodo = (newTodo: Todo) => {
+    setTodos(prevTodos => [...prevTodos, newTodo]);
+    setEvents(prevEvents => [...prevEvents, {
+      id: newTodo.id,
       title: newTodo.title,
-      start: newTodo.dueDate,
-      description: newTodo.description
+      dueDate: newTodo.dueDate,
+      description: newTodo.description,
+      completed: newTodo.completed
     }]);
   };
 
-  const deleteTodo = async (id) => {
+  const deleteTodo = async (id: string) => {
     try {
       const response = await fetch(`http://localhost:8090/api/v1/todo/delete/${id}`, {
         method: 'DELETE'

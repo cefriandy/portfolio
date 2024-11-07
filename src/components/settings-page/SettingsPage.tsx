@@ -22,7 +22,7 @@ const Settings: React.FC = () => {
         localStorage.setItem('darkMode', JSON.stringify(!isDarkMode));
     };
 
-    const handleLanguageChange = (e) => {
+    const handleLanguageChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setLanguage(e.target.value);
     };
 
@@ -30,7 +30,7 @@ const Settings: React.FC = () => {
         setNotifications(!notifications);
     };
 
-    const handlePrivacyChange = (e) => {
+    const handlePrivacyChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setPrivacy(e.target.value);
     };
 
