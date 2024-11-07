@@ -25,14 +25,14 @@ const LeftPage: React.FC = () => {
   return (
     <div className={`d-flex position-relative ${isSidebarVisible ? 'vh-100' : 'vh-auto'}`}>
       {isSidebarVisible && (
-        <div className={`p-3 ${isMenuVisible ? 'sidebar-expanded' : 'sidebar-collapsed'} vh-100`}>
+        <div className={`d-flex p-2 ${isMenuVisible ? 'sidebar-expanded' : 'sidebar-collapsed'} vh-100`}>
           <button
-            className={`btn btn-primary position-absolute top-0 ${isMenuVisible ? 'end-0' : 'start-0'} m-2`}
+            className={`btn btn-primary position-absolute top-0 ${isMenuVisible ? 'end-0' : 'start-0'}`}
             onClick={toggleMenu}
           >
             {isMenuVisible ? '✖' : '☰'}
           </button>
-          <ul className="list-unstyled mt-5">
+          <ul className="list-unstyled mt-4">
             <li className="my-3">
               <a href="#" className="d-flex align-items-center" onClick={() => navigate('/')}>
                 <FaTachometerAlt className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
@@ -99,7 +99,7 @@ const LeftPage: React.FC = () => {
         <FaBars />
       </button>
       {isPopupMenuVisible && (
-        <div className="popup-menu position-absolute top-0 start-0 bg-white p-3 shadow">
+        <div className="popup-menu top-0 start-0 bg-light p-3">
           <ul className="list-unstyled">
             <li className="my-3">
               <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/'); togglePopupMenu(); }}>
