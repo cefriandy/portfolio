@@ -1,0 +1,26 @@
+/* style.css */
+
+/* General styles */
+body {
+  font-family: 'Arial', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  max-width: 800px;
+}
+
+/* Dark mode styles */
+body.dark-mode .container {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .card .container {
+  background-color: #1e1e1e;
+  border-color: #333333;
+}
+
+body.dark-mode .form-check-label {
+  color: #ffffff;
+}

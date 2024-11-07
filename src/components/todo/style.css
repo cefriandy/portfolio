@@ -1,0 +1,46 @@
+.table-responsive {
+    overflow-x: auto;
+    /* Enables horizontal scrolling */
+}
+
+table {
+    width: 100%;
+    /* Full width */
+    border-collapse: collapse;
+    /* Collapses borders */
+}
+
+th,
+td {
+    padding: 12px;
+    /* Padding for cells */
+    text-align: left;
+    /* Align text to the left */
+    border: 1px solid #ddd;
+    /* Border for cells */
+}
+
+th {
+    background-color: #f2f2f2;
+    /* Header background color */
+}
+
+@media (max-width: 600px) {
+
+    .custom-table {
+        th,
+        td {
+            display: block;
+            /* Stack cells on small screens */
+            width: 100%;
+            /* Full width for each cell */
+        }
+
+        tr {
+            margin-bottom: 15px;
+            /* Space between rows */
+            display: block;
+            /* Make rows block elements */
+        }
+    }
+}

@@ -1,0 +1,29 @@
+/* style.css */
+
+/* General styles */
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  max-width: 800px;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}

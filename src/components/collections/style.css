@@ -1,0 +1,20 @@
+/* style.css */
+
+/* Additional styling for collection cards */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-subtitle {
+    font-size: 0.875rem;
+}
+
+.card-text {
+    font-size: 1rem;
+}
