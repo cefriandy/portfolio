@@ -51,43 +51,43 @@ const LeftPage: React.FC = () => {
           </button>
           <ul className="list-unstyled mt-4">
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/')}>
                 <FaTachometerAlt className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'Dashboard'}
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/generate-dynamic-table')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/generate-table')}>
                 <FaPlus className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'Dynamic Table'}
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/map')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/map')}>
                 <FaMap className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'Maps'}
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/news')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/news')}>
                 <FaNewspaper className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'News'}
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/collections')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/collections')}>
                 <FaCloudscale className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'Collection'}
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/videos')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/videos')}>
                 <FaVideo className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'Videos'}
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => navigate('/todos')}>
+              <a className="d-flex align-items-center" onClick={() => navigate('/todos')}>
                 <FaTasks className={`me-2 ${isMenuVisible ? '' : 'mx-auto'}`} />
                 {isMenuVisible && 'Todos'}
               </a>
