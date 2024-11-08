@@ -1,10 +1,23 @@
 .sidebar-expanded {
     width: 100%;
-    /* Set your desired width when expanded */
     transition: width 0.3s ease;
 }
 
 .sidebar-collapsed {
-    width: 62px;
+    width: 60px;
     transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .sidebar-expanded {
+        display: none;
+    }
+
+    .sidebar-collapsed {
+        display: none;
+    }
+
+    .popup-menu {
+        display: block;
+    }
 }

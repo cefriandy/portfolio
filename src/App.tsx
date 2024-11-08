@@ -25,7 +25,7 @@ import Settings from './components/settings-page/SettingsPage';
 const App: React.FC = () => {
   return (
     <TodoProvider>
-      <Router>
+      <Router basename="/portfolio">
         <div className="d-flex flex-column min-vh-100">
           <Header />
           <div className="custom-container flex-grow-1 d-flex">

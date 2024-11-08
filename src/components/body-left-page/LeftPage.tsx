@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTachometerAlt, FaPlus, FaMap, FaNewspaper, FaCloudscale, FaVideo, FaTasks, FaBars } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,6 +9,23 @@ const LeftPage: React.FC = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [isPopupMenuVisible, setIsPopupMenuVisible] = useState(false);
   const navigate = useNavigate();
+
+  const handleResize = () => {
+    if (window.innerWidth <= 768) {
+      setIsSidebarVisible(false); // Hide sidebar on small screens
+    } else {
+      setIsSidebarVisible(true); // Show sidebar on larger screens
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Check size on mount
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -25,7 +42,7 @@ const LeftPage: React.FC = () => {
   return (
     <div className={`d-flex position-relative ${isSidebarVisible ? 'vh-100' : 'vh-auto'}`}>
       {isSidebarVisible && (
-        <div className={`d-flex p-2 ${isMenuVisible ? 'sidebar-expanded' : 'sidebar-collapsed'} vh-100`}>
+        <div className={`d-flex p-3 ${isMenuVisible ? 'sidebar-expanded' : 'sidebar-collapsed'} vh-100`}>
           <button
             className={`btn btn-primary position-absolute top-0 ${isMenuVisible ? 'end-0' : 'start-0'}`}
             onClick={toggleMenu}
@@ -99,7 +116,7 @@ const LeftPage: React.FC = () => {
         <FaBars />
       </button>
       {isPopupMenuVisible && (
-        <div className="popup-menu top-0 start-0 bg-light p-3">
+        <div className="popup-menu top-0 start-0 bg-light p-3 m-2">
           <ul className="list-unstyled">
             <li className="my-3">
               <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/'); togglePopupMenu(); }}>
