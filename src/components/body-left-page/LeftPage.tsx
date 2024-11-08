@@ -119,43 +119,43 @@ const LeftPage: React.FC = () => {
         <div className="popup-menu top-0 start-0 bg-light p-3 m-2">
           <ul className="list-unstyled">
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/'); togglePopupMenu(); }}>
                 <FaTachometerAlt className="me-2" />
                 Dashboard
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/generate-dynamic-table'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/generate-table'); togglePopupMenu(); }}>
                 <FaPlus className="me-2" />
                 Dynamic Table
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/map'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/map'); togglePopupMenu(); }}>
                 <FaMap className="me-2" />
                 Maps
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/news'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/news'); togglePopupMenu(); }}>
                 <FaNewspaper className="me-2" />
                 News
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/collections'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/collections'); togglePopupMenu(); }}>
                 <FaCloudscale className="me-2" />
                 Collection
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/videos'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/videos'); togglePopupMenu(); }}>
                 <FaVideo className="me-2" />
                 Videos
               </a>
             </li>
             <li className="my-3">
-              <a href="#" className="d-flex align-items-center" onClick={() => { navigate('/todos'); togglePopupMenu(); }}>
+              <a className="d-flex align-items-center" onClick={() => { navigate('/todos'); togglePopupMenu(); }}>
                 <FaTasks className="me-2" />
                 Todos
               </a>

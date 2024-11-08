@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,7 +25,7 @@ import Settings from './components/settings-page/SettingsPage';
 const App: React.FC = () => {
   return (
     <TodoProvider>
-      <Router basename="/portfolio">
+      <Router>
         <div className="d-flex flex-column min-vh-100">
           <Header />
           <div className="custom-container flex-grow-1 d-flex">
@@ -40,7 +40,7 @@ const App: React.FC = () => {
                 <div className="dynamic-content">
                   <Routes>
                     <Route path="/map" element={<MapPage />} />
-                    <Route path="/generate-dynamic-table" element={<DynamicTable />} />
+                    <Route path="/generate-table" element={<DynamicTable />} />
                     <Route path="/portfolio" element={<PortfolioPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/settings" element={<Settings />} />
