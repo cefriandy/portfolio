@@ -21,6 +21,7 @@ import NewsPage from './components/news/NewsPage';
 import VideosPage from './components/videos/VideosPage';
 import CollectionsPage from './components/collections/CollectionPage';
 import Settings from './components/settings-page/SettingsPage';
+import Test from './components/test/Test';
 
 const App: React.FC = () => {
   return (
@@ -49,6 +50,7 @@ const App: React.FC = () => {
                     <Route path="/news" element={<NewsPage />} />
                     <Route path="/videos" element={<VideosPage />} />
                     <Route path="/collections" element={<CollectionsPage />} />
+                    <Route path="/test" element={<Test />} />
                     <Route path="/" element={<MainPage />} />
                   </Routes>
                 </div>
